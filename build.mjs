@@ -49,9 +49,10 @@ const logoImg = (cls = "") =>
   `<img${cls ? ` class="${cls}"` : ""} src="/assets/img/logo.webp" alt="${esc(site.name)}" width="1043" height="161" decoding="async">`;
 
 /* Görsel yardımcı: gerçek foto varsa <img>, yoksa premium placeholder */
-function media(src, alt = "", { ratio = "16 / 11", eager = false, cls = "" } = {}) {
-  if (!src) return `<div class="media-frame"${cls ? ` class="${cls}"` : ""} style="aspect-ratio:${ratio}">${icon("image")}<span>Görsel eklenecek</span></div>`;
-  return `<div class="media-photo${cls ? " " + cls : ""}" style="aspect-ratio:${ratio}"><img src="${src}" alt="${esc(alt)}" loading="${eager ? "eager" : "lazy"}" decoding="async"></div>`;
+function media(src, alt = "", { ratio = "16 / 11", eager = false, cls = "", fit = "cover" } = {}) {
+  if (!src) return `<div class="media-frame" style="aspect-ratio:${ratio}">${icon("image")}<span>Görsel eklenecek</span></div>`;
+  const cc = "media-photo" + (fit === "contain" ? " media-photo--contain" : "") + (cls ? " " + cls : "");
+  return `<div class="${cc}" style="aspect-ratio:${ratio}"><img src="${src}" alt="${esc(alt)}" loading="${eager ? "eager" : "lazy"}" decoding="async"></div>`;
 }
 
 /* ---------------- bileşenler ---------------- */
@@ -575,7 +576,7 @@ ${ctaBand()}`;
 function pageFleet() {
   const cards = fleet
     .map((f, i) => `<article class="card fleet-card" data-reveal data-delay="${i % 3}">
-      ${mediaFrame(esc(f.name))}
+      ${media(f.img, f.name, { ratio: "4 / 3" })}
       <div class="fleet-card__body">
         <h3>${esc(f.name)}</h3>
         <p style="margin:.2em 0 0;color:var(--accent-strong);font-weight:700">${esc(f.cap)}</p>
@@ -612,7 +613,7 @@ ${ctaBand("Grubunuza en uygun aracı birlikte seçelim", "Kişi sayısı ve güz
 
 function pageDocuments() {
   const cards = documents
-    .map((d, i) => `<article class="card doc-card" data-reveal data-delay="${i % 3}">${mediaFrame("Belge")}<div class="fleet-card__body"><h3 style="font-size:1.1rem">${esc(d.name)}</h3><p>${esc(d.desc)}</p></div></article>`)
+    .map((d, i) => `<article class="card doc-card" data-reveal data-delay="${i % 3}">${media(d.img, d.name, { ratio: "3 / 4", fit: "contain" })}<div class="fleet-card__body"><h3 style="font-size:1.1rem">${esc(d.name)}</h3><p>${esc(d.desc)}</p></div></article>`)
     .join("");
   const body = `
 <section class="page-hero">

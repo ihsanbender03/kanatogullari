@@ -260,24 +260,27 @@ export const services = [
   },
 ];
 
-// Araç filosu (görsel eklenene kadar premium placeholder ile)
+// Araç filosu (gerçek araç görselleri ile)
 export const fleet = [
-  { name: "Mercedes V-Class VIP", cap: "1–6 kişi", tags: ["VIP Transfer", "Deri koltuk", "Klima", "Geniş bagaj"], desc: "Üst segment VIP transfer ve business karşılama için lüks donanımlı aracımız." },
-  { name: "Mercedes Vito", cap: "1–8 kişi", tags: ["Havalimanı", "Grup transfer", "Konfor"], desc: "Havalimanı ve grup transferlerinde konforun standardı olan çok amaçlı aracımız." },
-  { name: "Sprinter / Minibüs", cap: "13–19 kişi", tags: ["Tur", "Personel", "Öğrenci"], desc: "Tur, personel ve öğrenci taşımacılığında ideal kapasiteli araç sınıfımız." },
-  { name: "Midibüs", cap: "27–31 kişi", tags: ["Gezi turu", "Kurumsal"], desc: "Orta ölçekli gruplar ve gezi turları için ekonomik ve konforlu çözüm." },
-  { name: "Otobüs", cap: "40–46 kişi", tags: ["Uzun yol", "Personel servisi"], desc: "Kalabalık gruplar ve uzun yol organizasyonları için tam donanımlı otobüs." },
-  { name: "Binek Araç", cap: "1–4 kişi", tags: ["Kiralama", "Şehir içi"], desc: "Şoförlü/şoförsüz kiralama ve şehir içi ulaşım için ekonomik binek araç." },
+  { name: "Mercedes V-Class / Vito", cap: "1–8 kişi", img: "/assets/img/fleet/vito.webp", tags: ["VIP Transfer", "Havalimanı", "Deri koltuk", "Klima"], desc: "Üst segment VIP transfer ve havalimanı karşılamada konforun standardı olan lüks aracımız." },
+  { name: "Mercedes E-Class", cap: "1–4 kişi", img: "/assets/img/fleet/mercedes-eclass.webp", tags: ["VIP", "Business", "Özel şoför"], desc: "Business karşılama ve özel transferler için prestijli binek aracımız." },
+  { name: "Mercedes Travego", cap: "40–46 kişi", img: "/assets/img/fleet/travego.webp", tags: ["Otobüs", "Uzun yol", "Tur"], desc: "Kalabalık gruplar ve uzun yol organizasyonları için tam donanımlı lüks otobüsümüz." },
+  { name: "Temsa Prestij SX", cap: "27–31 kişi", img: "/assets/img/fleet/temsa-prestij.webp", tags: ["Midibüs", "Gezi turu", "Kurumsal"], desc: "Orta ölçekli gruplar ve gezi turları için konforlu ve ekonomik midibüsümüz." },
+  { name: "Otokar Sultan", cap: "27–31 kişi", img: "/assets/img/fleet/otokar-sultan.webp", tags: ["Midibüs", "Engelli erişimi", "Servis"], desc: "Engelli erişim rampalı, personel ve öğrenci servisine uygun donanımlı midibüsümüz." },
+  { name: "Isuzu Novo Ultra", cap: "27–29 kişi", img: "/assets/img/fleet/isuzu-novo.webp", tags: ["Midibüs", "Personel", "Öğrenci"], desc: "Personel ve öğrenci taşımacılığında güvenilir, ekonomik midibüs sınıfımız." },
+  { name: "VW Transporter / Caravelle", cap: "1–8 kişi", img: "/assets/img/fleet/transporter.webp", tags: ["Grup transfer", "Konfor", "Kiralama"], desc: "Grup transferi ve kiralama için çok amaçlı, konforlu minivan aracımız." },
+  { name: "Audi (Binek)", cap: "1–4 kişi", img: "/assets/img/fleet/audi.webp", tags: ["VIP", "Kiralama", "Şehir içi"], desc: "Şoförlü/şoförsüz kiralama ve VIP şehir içi ulaşım için üst sınıf binek aracımız." },
 ];
 
-// Belgeler (görsel eklenene kadar placeholder)
+// Belgeler (gerçek resmi belge görselleri ile — portre/manzara karışık, contain ile gösterilir)
 export const documents = [
-  { name: "TÜRSAB Üyelik Belgesi", desc: "Türkiye Seyahat Acentaları Birliği kayıtlı acente güvencesi." },
-  { name: "D2 Yetki Belgesi", desc: "Şehirlerarası tarifesiz yolcu taşımacılığı yetki belgesi." },
-  { name: "Okul Servis Araçları Uygunluk Belgesi", desc: "Öğrenci taşımacılığında mevzuata tam uyum." },
-  { name: "Koltuk & Yolcu Sigorta Poliçeleri", desc: "Her sefer için zorunlu ve ek sigorta güvencesi." },
-  { name: "Araç Muayene ve Bakım Kayıtları", desc: "Düzenli teknik muayene ve periyodik bakım belgeleri." },
-  { name: "Vergi Levhası & Ticaret Sicil", desc: "Yasal ve kurumsal faaliyet belgeleri." },
+  { name: "Seyahat Acentası İşletme Belgesi (A Grubu)", img: "/assets/img/docs/seyahat-acentasi.webp", desc: "T.C. Kültür ve Turizm Bakanlığı onaylı A Grubu seyahat acentası işletme belgesi." },
+  { name: "D2 Yetki Belgesi", img: "/assets/img/docs/d2-yetki.webp", desc: "Ulaştırma Bakanlığı — yurt içi tarifesiz yolcu taşımacılığı yetki belgesi." },
+  { name: "TSE Hizmet Yeterlilik Belgesi", img: "/assets/img/docs/tse-hyb.webp", desc: "Türk Standardları Enstitüsü onaylı hizmet yeterlilik belgesi." },
+  { name: "İkinci El Kara Taşıtı Ticareti Belgesi", img: "/assets/img/docs/kara-tasiti.webp", desc: "Afyonkarahisar Valiliği — motorlu kara taşıtı ticareti yetki belgesi." },
+  { name: "ISO 9001:2015 Kalite Yönetim Sistemi", img: "/assets/img/docs/iso-9001.webp", desc: "Uluslararası kalite yönetim sistemi sertifikası (RQSCERT)." },
+  { name: "ISO Yönetim Sistemi Belgesi", img: "/assets/img/docs/iso-2.webp", desc: "Uluslararası yönetim sistemi sertifikası." },
+  { name: "ISO Yönetim Sistemi Belgesi", img: "/assets/img/docs/iso-3.webp", desc: "Uluslararası yönetim sistemi sertifikası." },
 ];
 
 // Neden biz (ana sayfa + kurumsal)
@@ -310,6 +313,10 @@ const serviceImages = {
   "vip-transfer": "/assets/img/photos/vip.webp",
   "personel-tasimaciligi": "/assets/img/hero/personel.webp",
   "catering": "/assets/img/hero/catering.webp",
+  "ogrenci-tasimaciligi": "/assets/img/photos/ogrenci.webp",
+  "ozel-tur-hizmetleri": "/assets/img/photos/tur.webp",
+  "gezi-tur-ve-rehberlik-hizmetleri": "/assets/img/photos/rehber.webp",
+  "arac-kiralama": "/assets/img/photos/arac-kiralama.webp",
 };
 for (const s of services) s.image = serviceImages[s.slug] || null;
 
