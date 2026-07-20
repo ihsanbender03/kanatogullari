@@ -245,7 +245,7 @@ function pageHome() {
     ${heroSlides
       .map(
         (s, i) =>
-          `<a class="hero-slide${i === 0 ? " is-active" : ""}" href="${s.link}"${i === 0 ? "" : ' aria-hidden="true" tabindex="-1"'}><img src="${s.img}" alt="${esc(s.alt)}" ${i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} decoding="async" width="1920" height="740"></a>`
+          `<a class="hero-slide${i === 0 ? " is-active" : ""}" href="${s.link}"${i === 0 ? "" : ' aria-hidden="true" tabindex="-1"'}><img src="${s.img}" alt="${esc(s.alt)}" loading="eager" ${i === 0 ? 'fetchpriority="high"' : 'fetchpriority="low"'} decoding="async" width="1920" height="750"></a>`
       )
       .join("")}
   </div>
