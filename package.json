@@ -1,0 +1,14 @@
+{
+  "name": "kanatogullari-turizm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kanatoğulları Turizm — saf HTML/CSS/JS statik kurumsal web sitesi (SEO odaklı, hızlı).",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node serve.mjs",
+    "dev": "node build.mjs && node serve.mjs"
+  },
+  "author": "Kanatoğulları Turizm",
+  "license": "UNLICENSED"
+}
