@@ -92,6 +92,42 @@
     });
   }
 
+  /* Hero slider */
+  var slider = d.querySelector("[data-slider]");
+  if (slider) {
+    var track = slider.querySelector(".hero-slider__track");
+    var slides = [].slice.call(slider.querySelectorAll(".hero-slide"));
+    var dots = [].slice.call(slider.querySelectorAll(".hero-slider__dot"));
+    var prev = slider.querySelector(".hero-slider__arrow--prev");
+    var next = slider.querySelector(".hero-slider__arrow--next");
+    var idx = 0, timer = null;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function show(n) {
+      idx = (n + slides.length) % slides.length;
+      if (track) track.style.transform = "translateX(" + (-idx * 100) + "%)";
+      slides.forEach(function (s, i) {
+        var on = i === idx;
+        s.classList.toggle("is-active", on);
+        if (on) { s.removeAttribute("aria-hidden"); s.removeAttribute("tabindex"); }
+        else { s.setAttribute("aria-hidden", "true"); s.setAttribute("tabindex", "-1"); }
+      });
+      dots.forEach(function (dt, i) {
+        dt.classList.toggle("is-active", i === idx);
+        if (i === idx) dt.setAttribute("aria-selected", "true"); else dt.removeAttribute("aria-selected");
+      });
+    }
+    function go(n) { show(n); restart(); }
+    function restart() { if (reduce) return; clearInterval(timer); timer = setInterval(function () { show(idx + 1); }, 5500); }
+
+    if (next) next.addEventListener("click", function () { go(idx + 1); });
+    if (prev) prev.addEventListener("click", function () { go(idx - 1); });
+    dots.forEach(function (dt, i) { dt.addEventListener("click", function () { go(i); }); });
+    slider.addEventListener("mouseenter", function () { clearInterval(timer); });
+    slider.addEventListener("mouseleave", restart);
+    restart();
+  }
+
   /* Aktif yıl */
   var y = d.querySelector("[data-year]");
   if (y) y.textContent = new Date().getFullYear();

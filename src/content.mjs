@@ -288,6 +288,31 @@ export const whyUs = [
   { icon: "crown", title: "VIP konfor standardı", text: "Bakımlı ve konforlu araçlarla güvenli, zamanında ve rahat ulaşım." },
 ];
 
+// Ana sayfa hero slaytları (firmanın kendi profesyonel görselleri — metin görsele gömülü)
+export const heroSlides = [
+  { img: "/assets/img/hero/vip-transfer.webp", alt: "Lüks ve konforlu VIP transfer hizmeti — siyah Mercedes VIP araç", link: "/vip-transfer/" },
+  { img: "/assets/img/hero/personel.webp", alt: "Zamanında, güvenli ve profesyonel personel taşımacılığı — Kanatoğulları otobüs filosu", link: "/personel-tasimaciligi/" },
+  { img: "/assets/img/hero/catering.webp", alt: "Özel catering hizmetleri — profesyonel yemek organizasyonu", link: "/catering/" },
+];
+
+// Çalıştığımız kurumlar / referanslar
+export const references = [
+  { name: "Afjet", logo: "/assets/img/refs/afjet.webp" },
+  { name: "Afyon Çimento", logo: "/assets/img/refs/afyoncimento.webp" },
+  { name: "Bahçeşehir Koleji", logo: "/assets/img/refs/bahcesehir.webp" },
+  { name: "Eskişehir", logo: "/assets/img/refs/eskisehir.webp" },
+  { name: "Yavuzoğlu Koleji", logo: "/assets/img/refs/yavuzoglu.png" },
+];
+
+// Hizmet görselleri (elimizdeki gerçek fotoğraflar; olmayan yerde premium placeholder)
+const serviceImages = {
+  "havalimani-yolcu-transferi": "/assets/img/photos/havalimani.webp",
+  "vip-transfer": "/assets/img/photos/vip.webp",
+  "personel-tasimaciligi": "/assets/img/hero/personel.webp",
+  "catering": "/assets/img/hero/catering.webp",
+};
+for (const s of services) s.image = serviceImages[s.slug] || null;
+
 // Kurumsal değerler
 export const values = [
   { icon: "shield", title: "Güven", text: "Verdiğimiz her sözün arkasında dururuz; yolcularımızın güvenliği önceliğimizdir." },

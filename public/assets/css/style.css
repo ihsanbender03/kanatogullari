@@ -377,7 +377,57 @@ body.menu-open .nav__toggle span::after { top: 0; transform: rotate(-45deg); }
 [data-reveal][data-delay="2"] { transition-delay: .16s; }
 [data-reveal][data-delay="3"] { transition-delay: .24s; }
 
+/* ---------- Logo images ---------- */
+.brand__logo { height: 38px; width: auto; }
+.footer-logo { height: 40px; width: auto; filter: brightness(0) invert(1); }
+@media (max-width: 480px) { .brand__logo { height: 32px; } }
+
+/* ---------- Real photo frame ---------- */
+.media-photo { position: relative; width: 100%; overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); background: var(--bg-alt); }
+.media-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ---------- Hero slider ---------- */
+.hero-slider { position: relative; overflow: hidden; background: var(--navy-900); height: clamp(340px, 44vw, 640px); }
+.hero-slider__track { display: flex; height: 100%; will-change: transform; transition: transform .7s cubic-bezier(.45, .05, .2, 1); }
+.hero-slide { position: relative; flex: 0 0 100%; min-width: 100%; height: 100%; display: block; }
+.hero-slide img { width: 100%; height: 100%; object-fit: cover; object-position: 22% center; }
+@media (max-width: 700px) { .hero-slide img { object-position: 30% center; } }
+.hero-slider__arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+  width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35);
+  background: rgba(9,20,40,.4); color: #fff; backdrop-filter: blur(6px);
+  display: grid; place-items: center; transition: background .25s, transform .25s;
+}
+.hero-slider__arrow:hover { background: var(--gold); color: #2a1e00; }
+.hero-slider__arrow svg { width: 22px; height: 22px; }
+.hero-slider__arrow--prev { left: clamp(12px, 3vw, 32px); }
+.hero-slider__arrow--prev svg { transform: rotate(180deg); }
+.hero-slider__arrow--next { right: clamp(12px, 3vw, 32px); }
+@media (max-width: 560px) { .hero-slider__arrow { width: 42px; height: 42px; } }
+.hero-slider__dots { position: absolute; left: 0; right: 0; bottom: 18px; z-index: 3; display: flex; justify-content: center; gap: 10px; }
+.hero-slider__dot { width: 10px; height: 10px; border-radius: 999px; border: 0; background: rgba(255,255,255,.5); transition: width .3s, background .3s; cursor: pointer; }
+.hero-slider__dot.is-active { width: 30px; background: var(--gold-500); }
+
+/* ---------- Hero intro band ---------- */
+.hero-intro { padding-block: clamp(38px, 6vw, 76px); background: #fff; }
+.hero-intro__grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+@media (max-width: 860px) { .hero-intro__grid { grid-template-columns: 1fr; } }
+.hero-intro h1 { margin-bottom: .35em; }
+.hero-intro .hero__actions { margin-top: 1.6em; }
+.hero-intro__stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 420px) { .hero-intro__stats { grid-template-columns: 1fr; } }
+.hero-intro__stats .hero__stat { padding: 20px 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--bg-alt); }
+.hero-intro__stats .hero__stat b { color: var(--navy-800); }
+.hero-intro__stats .hero__stat span { color: var(--muted); }
+
+/* ---------- References strip ---------- */
+.refs-strip { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(26px, 5vw, 70px); }
+.ref-logo { display: grid; place-items: center; }
+.ref-logo img { height: clamp(36px, 5vw, 52px); width: auto; filter: grayscale(1); opacity: .62; transition: filter .3s, opacity .3s, transform .3s; }
+.ref-logo:hover img { filter: none; opacity: 1; transform: translateY(-2px); }
+
 /* ---------- Utilities ---------- */
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .mt-0 { margin-top: 0; } .mb-0 { margin-bottom: 0; }
 .gold-line { width: 68px; height: 3px; background: linear-gradient(90deg, var(--gold-500), var(--gold)); border-radius: 3px; margin: 18px 0; }
 .pill { display: inline-flex; align-items: center; gap: .5em; padding: .4em 1em; border-radius: 999px; background: rgba(201,162,75,.14); color: var(--accent-strong); font-weight: 700; font-size: .84rem; }

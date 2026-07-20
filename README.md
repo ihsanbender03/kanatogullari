@@ -26,10 +26,18 @@ Tüm metinler, hizmetler, iletişim ve SEO verileri tek dosyadadır:
    klasörüne yükleyin (`.htaccess` dahil).
 3. Eski WordPress dosyalarını temizleyin/kaldırın (bkz. güvenlik notu).
 
-## Yapılacaklar (görsel & içerik)
-- `assets/img/` içine gerçek fotoğraflar eklenmeli: hero (VIP araç), filo fotoğrafları,
-  belgeler, kurumsal görsel. Placeholder alanları otomatik yerini alır.
-- `og-default.jpg`, `apple-touch-icon.png`, `icon-192/512.png` eklenmeli.
+## Görseller
+Eski siteden çekilen gerçek görseller `assets/img/` altında düzenlendi
+(kaynak/orijinaller `assets/img/original/` — build sırasında `public/`'e kopyalanmaz):
+- `logo.webp` — marka logosu (header/footer)
+- `hero/` — ana sayfa slider görselleri (vip-transfer, personel, catering)
+- `photos/` — havalimani, vip, operasyon fotoğrafları (hizmet/kurumsal sayfaları)
+- `refs/` — referans/müşteri logoları (afjet, afyon çimento, bahçeşehir, eskişehir, yavuzoğlu)
+- `icons/` — favicon ve PWA ikonları
+
+**Hâlâ placeholder olan alanlar** (yeni foto gelince otomatik dolar): Öğrenci/Özel Tur/Gezi/Araç
+Kiralama hizmet görselleri, Araç Filomuz kartları, Belgelerimiz belge görselleri.
+Yeni foto eklemek için: dosyayı `assets/img/...` altına koy → yolu `src/content.mjs`'e yaz → `npm run build`.
 
 ## Güvenlik notu
 Eski WordPress sitesinin `sitemap.xml` dosyası spam (kumar) içeriğine yönlendiriyordu →

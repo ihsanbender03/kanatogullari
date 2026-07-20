@@ -6,7 +6,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { site, stats, nav, services, fleet, documents, whyUs, values } from "./src/content.mjs";
+import { site, stats, nav, services, fleet, documents, whyUs, values, heroSlides, references } from "./src/content.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.join(__dirname, "public");
@@ -44,13 +44,15 @@ const P = {
 const icon = (name, cls = "") =>
   `<svg${cls ? ` class="${cls}"` : ""} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[name] || ""}</svg>`;
 
-/* Logo — stilize altın kanat */
-const logoMark = `<svg class="brand__mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7cd86"/><stop offset="1" stop-color="#c9a24b"/></linearGradient></defs>
-  <rect width="48" height="48" rx="12" fill="#09244b"/>
-  <path d="M10 30c8-1 13-4 18-11 1 6-2 12-8 14-4 1.4-8 .5-10-3Z" fill="url(#g)"/>
-  <path d="M14 33c6-.5 10-3 13-8-.2 4.5-3 8-7 9-3 .9-5 .2-6-1Z" fill="#0d2f5e"/>
-</svg>`;
+/* Marka logosu (gerçek görsel) */
+const logoImg = (cls = "") =>
+  `<img${cls ? ` class="${cls}"` : ""} src="/assets/img/logo.webp" alt="${esc(site.name)}" width="1043" height="161" decoding="async">`;
+
+/* Görsel yardımcı: gerçek foto varsa <img>, yoksa premium placeholder */
+function media(src, alt = "", { ratio = "16 / 11", eager = false, cls = "" } = {}) {
+  if (!src) return `<div class="media-frame"${cls ? ` class="${cls}"` : ""} style="aspect-ratio:${ratio}">${icon("image")}<span>Görsel eklenecek</span></div>`;
+  return `<div class="media-photo${cls ? " " + cls : ""}" style="aspect-ratio:${ratio}"><img src="${src}" alt="${esc(alt)}" loading="${eager ? "eager" : "lazy"}" decoding="async"></div>`;
+}
 
 /* ---------------- bileşenler ---------------- */
 function header(active) {
@@ -68,7 +70,7 @@ function header(active) {
     .join("");
   return `<header class="site-header">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="${esc(site.name)} ana sayfa">${logoMark}<span>Kanatoğulları<small>Turizm · ${esc(site.city)}</small></span></a>
+    <a class="brand" href="/" aria-label="${esc(site.name)} ana sayfa">${logoImg("brand__logo")}</a>
     <nav aria-label="Ana menü"><ul class="nav__menu" id="mainmenu">${items}</ul></nav>
     <div class="nav__actions">
       <a class="nav__phone" href="tel:${site.phoneHref}">${icon("phone")}<span>${esc(site.phone)}</span></a>
@@ -87,7 +89,7 @@ function footer() {
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="/">${logoMark}<span>Kanatoğulları<small>Turizm</small></span></a>
+        <a class="brand" href="/" aria-label="${esc(site.name)}">${logoImg("footer-logo")}</a>
         <p>Afyonkarahisar merkezli olarak ${site.foundedYears} yıla yakın süredir personel, öğrenci ve VIP taşımacılık ile tur ve catering hizmetlerinde güvenilir çözümler sunuyoruz.</p>
         <div class="social">
           <a href="${site.social.instagram}" target="_blank" rel="noopener" aria-label="Instagram">${icon("instagram")}</a>
@@ -128,8 +130,8 @@ function jsonLd(extra = []) {
     url: site.domain,
     telephone: site.phone,
     email: site.email,
-    image: site.domain + "/assets/img/og-default.jpg",
-    logo: site.domain + "/assets/img/logo.png",
+    image: site.domain + "/assets/img/hero/vip-transfer.webp",
+    logo: site.domain + "/assets/img/logo.webp",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Dairecep Mah. Gazlıgöl Cad. No:35",
@@ -166,13 +168,16 @@ function layout({ title, desc, active = "", canonical, body, ld = "", ogType = "
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${canonical}">
-<meta property="og:image" content="${site.domain}/assets/img/og-default.jpg">
+<meta property="og:image" content="${site.domain}/assets/img/hero/vip-transfer.webp">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="740">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
-<meta name="twitter:image" content="${site.domain}/assets/img/og-default.jpg">
+<meta name="twitter:image" content="${site.domain}/assets/img/hero/vip-transfer.webp">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="icon" href="/assets/img/icons/favicon-32.webp" sizes="32x32" type="image/webp">
+<link rel="apple-touch-icon" href="/assets/img/icons/icon-180.webp">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -235,18 +240,35 @@ function pageHome() {
     .join("");
 
   const body = `
-<section class="hero">
-  <div class="hero__bg" aria-hidden="true"></div>
-  <div class="container hero__inner">
-    <div class="hero__content" data-reveal>
-      <span class="eyebrow hero__eyebrow">${site.foundedYears} Yıllık Tecrübe · ${esc(site.city)}</span>
-      <h1>Güvenli ve Konforlu <span class="accent-serif">Yolculuk</span> Deneyimi</h1>
-      <p class="hero__sub">Kanatoğulları Turizm; Afyonkarahisar merkezli olarak ${site.foundedYears} yıla yakın süredir personel, öğrenci ve VIP taşımacılık, tur organizasyonları ve catering hizmetleri sunar.</p>
-      <div class="hero__actions">
-        <a class="btn btn--gold" href="/iletisim/">Teklif Alın ${icon("arrow")}</a>
-        <a class="btn btn--outline-light" href="/hizmetlerimiz/">Hizmetlerimiz</a>
+<section class="hero-slider" aria-label="Öne çıkan hizmetlerimiz" data-slider>
+  <div class="hero-slider__track">
+    ${heroSlides
+      .map(
+        (s, i) =>
+          `<a class="hero-slide${i === 0 ? " is-active" : ""}" href="${s.link}"${i === 0 ? "" : ' aria-hidden="true" tabindex="-1"'}><img src="${s.img}" alt="${esc(s.alt)}" ${i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} decoding="async" width="1920" height="740"></a>`
+      )
+      .join("")}
+  </div>
+  <button class="hero-slider__arrow hero-slider__arrow--prev" type="button" aria-label="Önceki slayt">${icon("arrow")}</button>
+  <button class="hero-slider__arrow hero-slider__arrow--next" type="button" aria-label="Sonraki slayt">${icon("arrow")}</button>
+  <div class="hero-slider__dots" role="tablist" aria-label="Slayt seçimi">
+    ${heroSlides.map((_, i) => `<button class="hero-slider__dot${i === 0 ? " is-active" : ""}" type="button" role="tab" aria-label="${i + 1}. slayt"${i === 0 ? ' aria-selected="true"' : ""}></button>`).join("")}
+  </div>
+</section>
+
+<section class="hero-intro">
+  <div class="container">
+    <div class="hero-intro__grid">
+      <div data-reveal>
+        <span class="eyebrow">${site.foundedYears} Yıllık Tecrübe · ${esc(site.city)}</span>
+        <h1 class="title-lg">Güvenli ve Konforlu <span class="accent-serif">Yolculuk</span> Deneyimi</h1>
+        <p class="lead">Kanatoğulları Turizm; Afyonkarahisar merkezli olarak ${site.foundedYears} yıla yakın süredir personel, öğrenci ve VIP taşımacılık, tur organizasyonları ve catering hizmetleri sunar.</p>
+        <div class="hero__actions">
+          <a class="btn btn--gold" href="/iletisim/">Teklif Alın ${icon("arrow")}</a>
+          <a class="btn btn--ghost" href="/hizmetlerimiz/">Hizmetlerimiz</a>
+        </div>
       </div>
-      <div class="hero__stats">${statBoxes}</div>
+      <div class="hero-intro__stats" data-reveal data-delay="1">${statBoxes}</div>
     </div>
   </div>
 </section>
@@ -264,7 +286,7 @@ function pageHome() {
 
 <section class="section section--alt">
   <div class="container split">
-    <div class="split__media" data-reveal>${mediaFrame("Bakımlı VIP filo")}
+    <div class="split__media" data-reveal>${media("/assets/img/photos/operasyon.webp", "Kanatoğulları Turizm deneyimli operasyon ekibi", { ratio: "16 / 11" })}
       <div class="split__badge">${icon("medal", "")}<div><b>${site.foundedYears}+</b><span>yıllık yol tecrübesi</span></div></div>
     </div>
     <div data-reveal data-delay="1">
@@ -289,6 +311,19 @@ function pageHome() {
       <h2 class="title">Bizi Tercih Etmeniz İçin Nedenler</h2>
     </div>
     <div class="grid cols-4">${whyCards}</div>
+  </div>
+</section>
+
+<section class="section section--alt refs-section">
+  <div class="container">
+    <div class="section-head text-center mx-auto" data-reveal>
+      <span class="eyebrow" style="justify-content:center">Referanslarımız</span>
+      <h2 class="title">Bize güvenen kurumlar</h2>
+      <p class="lead mx-auto">Köklü kurumların personel, öğrenci ve organizasyon ulaşımında tercih ettiği çözüm ortağı.</p>
+    </div>
+    <div class="refs-strip" data-reveal>
+      ${references.map((r) => `<div class="ref-logo"><img src="${r.logo}" alt="${esc(r.name)} logosu" loading="lazy" decoding="async"></div>`).join("")}
+    </div>
   </div>
 </section>
 
@@ -357,7 +392,7 @@ function pageService(s) {
         <a class="btn btn--ghost" href="tel:${site.phoneHref}">${icon("phone")} ${esc(site.phone)}</a>
       </div>
     </div>
-    <div class="split__media" data-reveal data-delay="1">${mediaFrame(esc(s.title))}</div>
+    <div class="split__media" data-reveal data-delay="1">${media(s.image, s.title, { ratio: s.image ? "4 / 3" : "16 / 11" })}</div>
   </div>
 </section>
 
@@ -481,7 +516,7 @@ function pageKurumsal() {
       <p>Yaklaşık ${site.foundedYears} yıllık sektörel tecrübemizle personel taşımacılığı, öğrenci servisleri, VIP transfer, tur organizasyonları ve catering hizmetlerinde güvenilir çözümler üretiyoruz. Deneyimli operasyon ekibimizle her yolculuğu planlı, güvenli ve sorunsuz şekilde yönetiyoruz.</p>
       <p>Bakımlı ve konforlu araçlarımız sayesinde güvenli, zamanında ve rahat ulaşım sağlıyor; dakiklik odaklı operasyonumuzla kesintisiz transfer hizmeti sunuyoruz.</p>
     </div>
-    <div class="split__media" data-reveal data-delay="1">${mediaFrame("Kanatoğulları Turizm")}
+    <div class="split__media" data-reveal data-delay="1">${media("/assets/img/hero/personel.webp", "Kanatoğulları Turizm araç filosu", { ratio: "16 / 11" })}
       <div class="split__badge">${icon("medal")}<div><b>${site.foundedYears}+</b><span>yıllık tecrübe</span></div></div>
     </div>
   </div>
@@ -710,8 +745,8 @@ const webmanifest = JSON.stringify(
     background_color: "#ffffff",
     theme_color: "#09244b",
     icons: [
-      { src: "/assets/img/icon-192.png", sizes: "192x192", type: "image/png" },
-      { src: "/assets/img/icon-512.png", sizes: "512x512", type: "image/png" },
+      { src: "/assets/img/icons/icon-192.webp", sizes: "192x192", type: "image/webp" },
+      { src: "/assets/img/icons/icon-512.webp", sizes: "270x270", type: "image/webp" },
     ],
   },
   null,
@@ -770,9 +805,11 @@ ErrorDocument 404 /404.html
 const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="10" fill="#09244b"/><path d="M10 30c8-1 13-4 18-11 1 6-2 12-8 14-4 1.4-8 .5-10-3Z" fill="#d4af37"/><path d="M14 33c6-.5 10-3 13-8-.2 4.5-3 8-7 9-3 .9-5 .2-6-1Z" fill="#0d2f5e"/></svg>`;
 
 /* ---------------- yazım ---------------- */
+const SKIP_DIRS = new Set(["original"]);
 async function copyDir(src, dest) {
   await fs.mkdir(dest, { recursive: true });
   for (const entry of await fs.readdir(src, { withFileTypes: true })) {
+    if (entry.isDirectory() && SKIP_DIRS.has(entry.name)) continue;
     const s = path.join(src, entry.name);
     const d = path.join(dest, entry.name);
     if (entry.isDirectory()) await copyDir(s, d);
